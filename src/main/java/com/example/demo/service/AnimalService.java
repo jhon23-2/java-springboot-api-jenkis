@@ -13,7 +13,7 @@ import java.util.List;
 @Slf4j
 public class AnimalService {
 
-    private AnimalInterface animalInterface;
+    private final AnimalInterface animalInterface;
 
     public Animal save(Animal animal) {
         Animal animalSaved = animalInterface.save(animal);
