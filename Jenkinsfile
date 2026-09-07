@@ -17,5 +17,19 @@ pipeline {
                 sh "mvn clean install -DskipTests"
             }
         }
+
+        stage("Executing some command") {
+            steps {
+                sh "mvn --version"
+            }
+            post {
+                success {
+                    echo "Good!"
+                }
+                failure {
+                    echo "Something was wrong with {mvn --version} command"
+                }
+            }
+        }
     }
 }
