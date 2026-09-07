@@ -17,19 +17,5 @@ pipeline {
                 sh "mvn clean install"
             }
         }
-
-        stage("Executing some commands"){
-            steps {
-                sh "mvn --version"
-            }
-            post {
-                success {
-                    echo "Good!"
-                }
-                failure {
-                    echo "Something was wrong with mvn --version command"
-                }
-            }
-        }
     }
 }
