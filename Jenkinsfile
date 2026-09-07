@@ -9,7 +9,7 @@ pipeline {
         stage("Executing maven project") {
             agent {
                 docker {
-                    image '${DOCKER_IMAGE}'
+                    image "${DOCKER_IMAGE}"
                 }
             }
             steps {
