@@ -6,8 +6,8 @@ pipeline {
     }
 
     stages{
-        stage("Executing maven project") {
-            agent { // local agent execution should work only to executing maven project stage section 
+        stage("Build") {
+            agent { // local docker agent execution should work only into Build stage section
                 docker {
                     image "${DOCKER_IMAGE}"
                 }
@@ -15,6 +15,27 @@ pipeline {
             steps {
                 sh "mvn --version"
                 sh "mvn clean install -DskipTests"
+            }
+            post {
+                success{
+                    archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+                }
+            }
+        }
+
+        stage("Test"){
+            agent { // local docker agent execution should work only to into Test stage section
+                docker {
+                    image "${DOCKER_IMAGE}"
+                }
+            }
+            steps {
+                sh "mvn clean install"
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
+                }
             }
         }
     }
