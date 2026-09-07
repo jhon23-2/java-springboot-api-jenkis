@@ -7,7 +7,7 @@ pipeline {
 
     stages{
         stage("Executing maven project") {
-            agent {
+            agent { # local agent execution should work only to executing maven project stage section 
                 docker {
                     image "${DOCKER_IMAGE}"
                 }
@@ -15,20 +15,6 @@ pipeline {
             steps {
                 sh "mvn --version"
                 sh "mvn clean install -DskipTests"
-            }
-        }
-
-        stage("Executing some command") {
-            steps {
-                sh "mvn --version"
-            }
-            post {
-                success {
-                    echo "Good!"
-                }
-                failure {
-                    echo "Something was wrong with {mvn --version} command"
-                }
             }
         }
     }
