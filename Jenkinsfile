@@ -7,7 +7,7 @@ pipeline {
 
     stages{
         stage("Executing maven project") {
-            agent { # local agent execution should work only to executing maven project stage section 
+            agent { // local agent execution should work only to executing maven project stage section 
                 docker {
                     image "${DOCKER_IMAGE}"
                 }
