@@ -1,5 +1,6 @@
 package com.example.demo.rest;
 
+import com.example.demo.dto.AnimalDTO;
 import com.example.demo.entity.Animal;
 import com.example.demo.service.AnimalService;
 import lombok.RequiredArgsConstructor;
@@ -16,13 +17,12 @@ public class AnimalRest {
     private final AnimalService animalService;
 
     @PostMapping
-    public ResponseEntity<Animal> save(@RequestBody Animal animal) {
-        Animal saved = animalService.save(animal);
-        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    public ResponseEntity<AnimalDTO> save(@RequestBody AnimalDTO animal) {
+        return ResponseEntity.ofNullable(this.animalService.save(animal));
     }
 
     @GetMapping
-    public ResponseEntity<List<Animal>> findAll(){
+    public ResponseEntity<List<AnimalDTO>> findAll(){
         return ResponseEntity.ok(animalService.findAll());
     }
 }

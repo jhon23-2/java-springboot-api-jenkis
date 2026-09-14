@@ -27,4 +27,4 @@ management:
       show-details: always
 
 server:
-  port: 8084
+  port: 8084 # feel free to use whatever you want (in case you have available)

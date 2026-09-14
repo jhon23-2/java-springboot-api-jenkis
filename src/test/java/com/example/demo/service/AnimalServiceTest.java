@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Animal;
-import com.example.demo.service.impl.AnimalInterface;
+import com.example.demo.repository.AnimalRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 class AnimalServiceTest {
 
     @Mock
-    private AnimalInterface animalRepository;
+    private AnimalRepository animalRepository;
 
     @InjectMocks
     private AnimalService animalService;
