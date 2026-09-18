@@ -1,8 +1,27 @@
 version: '3.8'
 
 services:
+  # Spring Boot Application Service
+  app:
+    image: jhona1dev/animal-api:latest
+    container_name: animal-api
+    ports:
+      - '8084:8084'
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/mydatabase
+      SPRING_DATASOURCE_USERNAME: myuser
+      SPRING_DATASOURCE_PASSWORD: secret
+    networks:
+      - demo-network
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: on-failure
+
   # MySQL Database Service
   mysql:
+    depends_on:
+      - app
     image: 'mysql:8.0'
     container_name: demo-mysql
     environment:
@@ -22,25 +41,6 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
-
-  # Spring Boot Application Service
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: demo-app
-    ports:
-      - '8084:8084'
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/mydatabase
-      SPRING_DATASOURCE_USERNAME: myuser
-      SPRING_DATASOURCE_PASSWORD: secret
-    networks:
-      - demo-network
-    depends_on:
-      mysql:
-        condition: service_healthy
-    restart: on-failure
 
 networks:
   demo-network:
