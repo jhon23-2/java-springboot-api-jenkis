@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+  labels:
+    app: animal-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: animal-api
+  # Template is like a pod but inside the deployment, it creates pod (animal-api pod)
+  template:
+    metadata:
+      labels:
+        app: animal-api
+    spec:
+      containers:
+        - name: animal-api
+          image: jhona1dev/animal-api:latest
+          ports:
+            - containerPort: 8084
+              name: http
+          env:
+            # SPRING_DATASOURCE_USERNAME and SPRING_DATASOURCE_PASSWORD value Pulled from ./env/mysql-secret.yaml
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: mysql-user
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: mysql-password
+            # All of these environment variables are set up in api-configmap.yaml
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: api-config
+                  key: spring-datasource-url
+            - name: SPRING_APPLICATION_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: api-config
+                  key: spring-application-name
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              valueFrom:
+                configMapKeyRef:
+                  name: api-config
+                  key: spring-jpa-hibernate-ddl-auto
+            - name: SERVER_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: api-config
+                  key: server-port
+            - name: SPRING_JPA_SHOW_SQL
+              valueFrom:
+                configMapKeyRef:
+                  name: api-config
+                  key: spring-jpa-show-sql
+
+

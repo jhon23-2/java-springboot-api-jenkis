@@ -1,6 +1,6 @@
 spring:
   application:
-    name: demo
+    name: ${APPLICATION_NAME:demo}
 
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql://mysql:3306/mydatabase}
@@ -10,8 +10,8 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: ${SPRING_JPA_DDL_AUTO:update}
+    show-sql: ${SHOW_SQL:true}
     properties:
       hibernate:
         format_sql: true
@@ -27,4 +27,4 @@ management:
       show-details: always
 
 server:
-  port: 8084
+  port: ${PORT:8084}

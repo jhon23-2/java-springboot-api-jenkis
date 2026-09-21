@@ -25,10 +25,10 @@ services:
     image: 'mysql:8.0'
     container_name: demo-mysql
     environment:
-      MYSQL_DATABASE: mydatabase
-      MYSQL_USER: myuser
-      MYSQL_PASSWORD: secret
-      MYSQL_ROOT_PASSWORD: verysecret
+      MYSQL_DATABASE: mydatabase # for k8s goes to the config-map
+      MYSQL_USER: myuser # for k8s goes to the secret
+      MYSQL_PASSWORD: secret # for k8s goes to the secret
+      MYSQL_ROOT_PASSWORD: verysecret # for k8s goes to the secret
     ports:
       - '3306:3306'
     volumes:
