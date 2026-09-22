@@ -1,17 +1,17 @@
 spring:
   application:
-    name: ${APPLICATION_NAME:demo}
+    name: ${SPRING_APPLICATION_NAME:demo}
 
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://mysql:3306/mydatabase}
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://mysql:${MYSQL_PORT}/${MYSQL_DATABASE_NAME_APP}}
     username: ${SPRING_DATASOURCE_USERNAME:myuser}
     password: ${SPRING_DATASOURCE_PASSWORD:secret}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
-      ddl-auto: ${SPRING_JPA_DDL_AUTO:update}
-    show-sql: ${SHOW_SQL:true}
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
+    show-sql: ${SPRING_JPA_SHOW_SQL:true}
     properties:
       hibernate:
         format_sql: true
@@ -27,4 +27,4 @@ management:
       show-details: always
 
 server:
-  port: ${PORT:8084}
+  port: ${SERVER_PORT:8084}

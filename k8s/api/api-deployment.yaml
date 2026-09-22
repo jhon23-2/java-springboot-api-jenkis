@@ -22,7 +22,7 @@ spec:
             - containerPort: 8084
               name: http
           env:
-            # SPRING_DATASOURCE_USERNAME and SPRING_DATASOURCE_PASSWORD value Pulled from ./env/mysql-secret.yaml
+            # SPRING_DATASOURCE_USERNAME and SPRING_DATASOURCE_PASSWORD value Pulled from ./secrets/mysql-secret.yaml
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -37,27 +37,38 @@ spec:
             - name: SPRING_DATASOURCE_URL
               valueFrom:
                 configMapKeyRef:
-                  name: api-config
+                  name: api-configmap
                   key: spring-datasource-url
             - name: SPRING_APPLICATION_NAME
               valueFrom:
                 configMapKeyRef:
-                  name: api-config
+                  name: api-configmap
                   key: spring-application-name
             - name: SPRING_JPA_HIBERNATE_DDL_AUTO
               valueFrom:
                 configMapKeyRef:
-                  name: api-config
+                  name: api-configmap
                   key: spring-jpa-hibernate-ddl-auto
             - name: SERVER_PORT
               valueFrom:
                 configMapKeyRef:
-                  name: api-config
+                  name: api-configmap
                   key: server-port
             - name: SPRING_JPA_SHOW_SQL
               valueFrom:
                 configMapKeyRef:
-                  name: api-config
+                  name: api-configmap
                   key: spring-jpa-show-sql
+          # MYSQL_PORT and MYSQL_DATABASE_NAME_APP are pulled from mysql-configmap there you will find mysql-port
+            - name: MYSQL_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-configmap
+                  key: mysql-port
+            - name: MYSQL_DATABASE_NAME_APP
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-configmap
+                  key:  mysql-database
 
-
+# order to execute -> secret -> configMap -> deployment -> service

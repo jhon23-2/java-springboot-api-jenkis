@@ -3,13 +3,13 @@ kind: Deployment
 metadata:
   name: mysql-deployment
   labels:
-    app: mysql
+    app: mysql # Set the label for match with other component (service , configMap and secret)
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mysql
-  template:
+      app: mysql # Set the selector property name to do match with this deployment (service , configMap and secret)
+  template:      # Template is pod definition
     metadata:
       labels:
         app: mysql
@@ -25,7 +25,7 @@ spec:
         - name: MYSQL_DATABASE
           valueFrom:
             configMapKeyRef:
-              name: mysql-configMap
+              name: mysql-configmap
               key: mysql-database
         # User from Secret
         - name: MYSQL_USER
@@ -45,3 +45,6 @@ spec:
             secretKeyRef:
               name: mysql-secret
               key: mysql-root-password
+
+
+# Order execution secret -> configMap -> deployment -> service

@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: mysql-config
+  name: mysql-configmap
   labels:
     app: mysql
 data:
-  mysql-database: mydatabase
+  mysql-database: mydatabase # used for the application (api-deployment.yaml) and for the database (mysql-deployment.yaml)(animals-api)
   mysql-port: "3306"

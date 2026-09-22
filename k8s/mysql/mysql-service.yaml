@@ -9,7 +9,7 @@ spec:
   selector:
     app: mysql
   ports:
-  - port: 3306
-    targetPort: 3306
+  - port: 3306 # read api-deployment there you will find the meaning for this section
+    targetPort: mysql # read api-deployment there you will find the meaning for this section
     protocol: TCP
     name: mysql

@@ -9,7 +9,7 @@ spec:
   selector:
     app: animal-api
   ports:
-  - port: 8084        # Port exposed by the service
-    targetPort: 8084  # Port on the container
+  - port: 80        # Port exposed outside the k8s by the service: this port forward the traffic to the targetPort witch is container port used inside the application containerized(pod)
+    targetPort: http  # Port on the container in this case is reference by name from api-deployment container port:8084 this is useful due to when you change your port number into your application does not need hardcoding the value here in the service 'cause http already reference to the new value
     protocol: TCP
     name: http
