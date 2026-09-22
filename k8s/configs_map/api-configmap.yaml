@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: api-config
+  name: api-configmap
   labels:
     app: animal-api
 data:
