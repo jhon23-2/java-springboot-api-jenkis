@@ -2,41 +2,42 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE='maven:3.9-eclipse-temurin-17'
+        MAVEN_IMAGE = 'maven:3.9-eclipse-temurin-17'
+        IMAGE_NAME  = 'jhona1dev/animal-api'
     }
 
-    stages{
-        stage("Build") {
-            agent { // local docker agent execution should work only into Build stage section
-                docker {
-                    image "${DOCKER_IMAGE}"
-                }
-            }
-            steps {
-                sh "mvn --version"
-                sh "mvn clean install -DskipTests"
-            }
-            post {
-                success{
-                    archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
-                }
-            }
-        }
+    stages {
 
-        stage("Test"){
-            agent { // local docker agent execution should work only to into Test stage section
+        stage('Test and Build') {
+            agent {
                 docker {
-                    image "${DOCKER_IMAGE}"
+                    image "${MAVEN_IMAGE}"
+                    reuseNode true
                 }
             }
             steps {
-                sh "mvn clean install"
+                sh 'mvn --version'
+                sh 'mvn clean verify'
             }
             post {
                 always {
-                    junit 'target/surefire-reports/*.xml'
+                    junit allowEmptyResults: true, testResults: 'target/surefire-reports/*.xml'
+                }
+                success {
+                    echo 'Good and Done!'
+                }
+                failure {
+                    echo 'Test and Build stage was wrong!'
                 }
             }
         }
+
+        stage('Docker Build') {
+            steps {
+                sh 'docker build -t $IMAGE_NAME:latest .'
+            }
+        }
+
+        // Docker push stages
     }
 }
